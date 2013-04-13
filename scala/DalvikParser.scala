@@ -27,20 +27,20 @@ class DalvikParser extends JavaTokenParsers{
   	
   	def register = ("$"~ident ^^ { case "$"~reg => reg } | failure("illegal register"))
   	
-	def stmt:Parser[Stmt] = ( /* labelstmt 
-							|  skipstmt
-							|  gotostmt
-							|  ifstmt
-							|  fieldassignstmt
-							|  returnstmt
-							|  assignaexpstmt
-							|  newstmt
-							|  invokestmt
-							|  invokesuperstmt
-							|  pushhandlerstmt
-							|  pophandlerstmt
-							|  throwstmt
-							|  moveexceptionstmt )
+	def stmt:Parser[Stmt] = (  labelstmt 
+							            |  skipstmt
+							            |  gotostmt
+							            |  ifstmt
+							            |  fieldassignstmt
+							            |  returnstmt
+							            |  assignaexpstmt
+							            |  newstmt
+							            |  invokestmt
+							            |  invokesuperstmt
+							            |  pushhandlerstmt
+							            |  pophandlerstmt
+							            |  throwstmt
+							            |  moveexceptionstmt )
 
 	def labelstmt:Parser[LabelStmt] = "label"~ident~";"~opt(stmt) ^^ { 
 			case "label"~label~";"~Some(next) => new LabelStmt(label, next)
@@ -98,8 +98,8 @@ class DalvikParser extends JavaTokenParsers{
 	}
 	
 	def cexp = (  newstmt 
-				| invokestmt 
-				| invokesuperstmt )
+				      | invokestmt 
+				      | invokesuperstmt )
 			
 	def newstmt = "$"~ident~":="~"new"~ident~";"~opt(stmt) ^^ { 
 			case "$"~lhs~":="~"new"~className~";"~Some(next) => new NewStmt(next, lhs, className)
@@ -121,14 +121,14 @@ class DalvikParser extends JavaTokenParsers{
 		}
 	
 	def aexp = (  thisexp
-		       |  booleanexp
-		       |  nullexp
-		       |  voidexp
-		       |  registerexp
-		       |  intexp
-		       |  atomicopexp
-		       |  instanceofexp
-		       |  fieldexp )
+		         |  booleanexp
+		         |  nullexp
+		         |  voidexp
+		         |  registerexp
+		         |  intexp
+		         |  atomicopexp
+		         |  instanceofexp
+		         |  fieldexp )
 
 	def thisexp = "this" ^^ { case _ => new ThisExp() }
 	
